@@ -22,31 +22,31 @@ import io.github.bonigarcia.seljup.SeleniumExtension;
 @ExtendWith(SeleniumExtension.class)
 public class GoogleSearchTest {
 
-	private void assertGoogleSearch(WebDriver driver) {
-		final long timeoutSeconds = 10;
-		final WebDriverWait wait = new WebDriverWait(driver, timeoutSeconds);
-        try {
-            driver.get("https://google.com/ncr");
-            driver.findElement(By.name("q")).sendKeys("cheese" + Keys.ENTER);
-            WebElement firstResult = wait.until(presenceOfElementLocated(By.cssSelector("h3>div")));
-            System.out.println(firstResult.getAttribute("textContent"));
-        } finally {
-            driver.quit();
-		}
-	}
+  private void assertGoogleSearch(WebDriver driver) {
+    final long timeoutSeconds = 10;
+    final WebDriverWait wait = new WebDriverWait(driver, timeoutSeconds);
+    try {
+      driver.get("https://google.com/ncr");
+      driver.findElement(By.name("q")).sendKeys("cheese" + Keys.ENTER);
+      WebElement firstResult = wait.until(presenceOfElementLocated(By.cssSelector("h3>div")));
+      System.out.println(firstResult.getAttribute("textContent"));
+    } finally {
+      driver.quit();
+    }
+}
 
-	@Test
-    public void testLocalFirefox(FirefoxDriver driver) {
-        assertGoogleSearch(driver);
-	}
+  @Test
+  public void testLocalFirefox(FirefoxDriver driver) {
+    assertGoogleSearch(driver);
+  }
 
-	@Test
-    public void testLocalChrome(ChromeDriver driver) {
-        assertGoogleSearch(driver);
-	}
+  @Test
+  public void testLocalChrome(ChromeDriver driver) {
+    assertGoogleSearch(driver);
+  }
 
-	@Test
-    public void testDockerBrowser(@DockerBrowser(type = OPERA) WebDriver driver) {
-		assertGoogleSearch(driver);
-	}
+  @Test
+  public void testDockerBrowser(@DockerBrowser(type = OPERA) WebDriver driver) {
+    assertGoogleSearch(driver);
+  }
 }
