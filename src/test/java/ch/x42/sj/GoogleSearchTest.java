@@ -12,6 +12,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -48,6 +49,12 @@ public class GoogleSearchTest {
 
   @Test
   public void testHtmlUnit(HtmlUnitDriver driver) {
+    assertGoogleSearch(driver);
+  }
+
+  @Test
+  @Disabled("To run in an environment with no PhantomJS")
+  public void testPhantomJS(PhantomJSDriver driver) {
     assertGoogleSearch(driver);
   }
 }
