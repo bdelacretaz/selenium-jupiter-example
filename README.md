@@ -1,12 +1,10 @@
 # selenium-jupiter-example
 Minimal example using [selenium-jupiter](https://github.com/bonigarcia/selenium-jupiter) with JUnit5.
 
-The Dockerfile demonstrates running PhantomJS-based tests from JUnit on a 
-relatively minimal environment.
+The Dockerfile demonstrates running WebDriver tests from JUnit using a Selenium Grid.
 
-To test this, use:
+To test this, start the Grid with:
 
-    docker build -t selenium-jupiter-example .
-    docker run -v $HOME/.m2/:/root/.m2/ selenium-jupiter-example
+    docker-compose -f selenium-grid-docker-compose.yml up
 
-For now several tests are `@Disabled` due to the limitations of this `maven` Docker image.
+And run the tests with `mvn clean test`.

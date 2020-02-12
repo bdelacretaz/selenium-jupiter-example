@@ -11,10 +11,13 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import io.github.bonigarcia.seljup.DockerBrowser;
+import io.github.bonigarcia.seljup.DriverCapabilities;
+import io.github.bonigarcia.seljup.DriverUrl;
 import io.github.bonigarcia.seljup.SeleniumExtension;
 
 /** Run tests using https://github.com/bonigarcia/selenium-jupiter to
@@ -23,34 +26,47 @@ import io.github.bonigarcia.seljup.SeleniumExtension;
 @ExtendWith(SeleniumExtension.class)
 public class GoogleSearchTest {
 
+  @DriverUrl
+  // Start selenium-grid-docker-compose.yml to activate this hub
+  private final String url = "http://localhost:4444/wd/hub";
+
   private void assertGoogleSearch(WebDriver driver) {
     driver.get("http://www.google.com");					
     WebElement element = driver.findElement(By.name("q"));	
     element.sendKeys("what's up, doc?");
     element.submit();
     assertTrue(driver.getTitle().contains("what"));
-}
+  }
 
   @Test
-  @Disabled("To run in an environment with no local browser")
+  public void testRemoteChrome(@DriverCapabilities("browserName=chrome") RemoteWebDriver driver) {
+    assertGoogleSearch(driver);
+  }
+
+  @Test
+  @Disabled("Kept as an example")
   public void testLocalChrome(ChromeDriver driver) {
     assertGoogleSearch(driver);
   }
 
   @Test
-  @Disabled("To run in an environment with no local browser")
+  @Disabled("Kept as an example")
   public void testDockerBrowser(@DockerBrowser(type = OPERA) WebDriver driver) {
     assertGoogleSearch(driver);
   }
 
   @Test
-  @Disabled("Focusing on PhantomJS for now")
+  @Disabled("HtmlUnit is quite limited")
   public void testHtmlUnit(HtmlUnitDriver driver) {
     assertGoogleSearch(driver);
   }
 
   @Test
+  @Disabled("Testing Selenium Grid for now")
   public void testPhantomJS(PhantomJSDriver driver) {
+    // To test this in a minimal environment, use:
+    // docker build -t selenium-jupiter-example .
+    // docker run -v $HOME/.m2/:/root/.m2/ selenium-jupiter-example
     assertGoogleSearch(driver);
   }
 }
