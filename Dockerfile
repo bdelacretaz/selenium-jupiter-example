@@ -1,15 +1,17 @@
 # Demonstrate running PhantomJS-based tests in Java
 # after installing the required dependencies
 FROM maven:3.6.3-jdk-11-slim
-RUN export OPENSSL_CONF=/etc/ssl
 RUN apt-get update
-RUN apt-get install libfontconfig libssl1.1 libssl-dev -y
+RUN apt-get install -y libfontconfig libssl1.1 libssl-dev
+RUN apt-get clean
 RUN mkdir /work
 COPY pom.xml /work
-COPY src /work
+COPY src /work/src
 WORKDIR /work
 
-# This Downloads The Web (tm) of course..
-RUN mvn dependency:resolve
-
-RUN mvn package
+# To avoid Downloading The Web, best is to 
+# run this container with 
+#   -v $HOME/.m2/:/root/.m2
+# to mount your local Maven repository, assuming
+# it contains what's needed
+CMD export OPENSSL_CONF=/etc/ssl ; mvn clean test
