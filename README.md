@@ -1,7 +1,7 @@
 # selenium-jupiter-example
 Minimal example using [selenium-jupiter](https://github.com/bonigarcia/selenium-jupiter) with JUnit5.
 
-The Dockerfile demonstrates running WebDriver tests from JUnit using a Selenium Grid.
+This module demonstrates running WebDriver tests from JUnit using a Selenium Grid.
 
 To test this, start the Grid with:
 
