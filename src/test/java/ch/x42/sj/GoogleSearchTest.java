@@ -44,12 +44,12 @@ public class GoogleSearchTest {
   }
 
   @Test
+  @Disabled("Focusing on PhantomJS for now")
   public void testHtmlUnit(HtmlUnitDriver driver) {
     assertGoogleSearch(driver);
   }
 
   @Test
-  @Disabled("To run in an environment with no PhantomJS")
   public void testPhantomJS(PhantomJSDriver driver) {
     assertGoogleSearch(driver);
   }
