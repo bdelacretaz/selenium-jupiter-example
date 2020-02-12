@@ -1,5 +1,5 @@
 # selenium-jupiter-example
-Minimal example using selenium-jupiter with JUnit5
+Minimal example using [selenium-jupiter](https://github.com/bonigarcia/selenium-jupiter) with JUnit5
 
 To test the build in a Docker image the provides no local browsers and no
 Docker engine, simulating a true headless environment, use
