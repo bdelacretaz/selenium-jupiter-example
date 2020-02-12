@@ -1,17 +1,20 @@
 package ch.x42.sj;
 
 import static io.github.bonigarcia.seljup.BrowserType.OPERA;
+import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -31,15 +34,25 @@ public class GoogleSearchTest {
   private final String url = "http://localhost:4444/wd/hub";
 
   private void assertGoogleSearch(WebDriver driver) {
-    driver.get("http://www.google.com");					
-    WebElement element = driver.findElement(By.name("q"));	
-    element.sendKeys("what's up, doc?");
-    element.submit();
-    assertTrue(driver.getTitle().contains("what"));
+    final long timeoutSeconds = 10;
+    final WebDriverWait wait = new WebDriverWait(driver, timeoutSeconds);
+    try {
+      driver.get("https://google.com/ncr");
+      driver.findElement(By.name("q")).sendKeys("cheese" + Keys.ENTER);
+      WebElement firstResult = wait.until(presenceOfElementLocated(By.cssSelector("h3>div")));
+      System.out.println(firstResult.getAttribute("textContent"));
+    } finally {
+      driver.quit();
+    }
   }
 
   @Test
   public void testRemoteChrome(@DriverCapabilities("browserName=chrome") RemoteWebDriver driver) {
+    assertGoogleSearch(driver);
+  }
+
+  @Test
+  public void testRemoteFirefox(@DriverCapabilities("browserName=firefox") RemoteWebDriver driver) {
     assertGoogleSearch(driver);
   }
 
