@@ -29,11 +29,10 @@ import io.github.bonigarcia.seljup.SeleniumExtension;
  *  acquire various WebDrivers
  */
 @ExtendWith(SeleniumExtension.class)
-public class GoogleSearchTest {
+public class SeleniumTest {
 
   public static final String DEFAULT_GRID_URL = "https://ondemand.eu-central-1.saucelabs.com/wd/hub";
 
-  // Testing with SauceLabs
   @DriverUrl
   static final String url = System.getProperty("SAUCE_URL", DEFAULT_GRID_URL);
 
@@ -48,11 +47,13 @@ public class GoogleSearchTest {
       capabilities.setCapability("name", "selenium-jupiter-example");
   }
 
+  private static final String TEST_URL = System.getProperty("TEST_URL", "https://google.com/ncr");
+
   private void assertGoogleSearch(WebDriver driver) {
     final long timeoutSeconds = 10;
     final WebDriverWait wait = new WebDriverWait(driver, timeoutSeconds);
     try {
-      driver.get("https://google.com/ncr");
+      driver.get(TEST_URL);
       driver.findElement(By.name("q")).sendKeys("cheese" + Keys.ENTER);
       WebElement firstResult = wait.until(presenceOfElementLocated(By.cssSelector("h3>div")));
       System.out.println(firstResult.getAttribute("textContent"));
