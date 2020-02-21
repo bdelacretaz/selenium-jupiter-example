@@ -31,9 +31,11 @@ import io.github.bonigarcia.seljup.SeleniumExtension;
 @ExtendWith(SeleniumExtension.class)
 public class GoogleSearchTest {
 
+  public static final String DEFAULT_GRID_URL = "https://ondemand.eu-central-1.saucelabs.com/wd/hub";
+
   // Testing with SauceLabs
   @DriverUrl
-  static final String url = "https://ondemand.eu-central-1.saucelabs.com/wd/hub";
+  static final String url = System.getProperty("SAUCE_URL", DEFAULT_GRID_URL);
 
   @DriverCapabilities
   DesiredCapabilities capabilities = new DesiredCapabilities();
